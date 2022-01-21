@@ -1,14 +1,38 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import { useState, useEffect } from 'react'
+import CategoriesAndProjects from '../components/categoriesAndProj'
 import Currencies from '../components/currencies'
 import Header from '../components/header'
 import { MainWrapper } from '../components/mainWrapper'
+import News from '../components/news'
 import Poisk from '../components/poisk'
 
 
 import styles from '../styles/Home.module.css'
 
 export default function Home() {
+
+  const [news, setNews] = useState([]);
+  const api = `https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=e538160f99674edea3cf80f2098e4279`
+
+  useEffect(() => {
+
+
+
+    (async function () {
+      let api_url = await fetch(api);
+      const res = await api_url.json();
+      setNews(res.articles)
+
+
+    })()
+
+
+
+  }, [])
+
+
   return (
     <div className={styles.container}>
       <Head>
@@ -27,33 +51,48 @@ export default function Home() {
         </body>
       </main> */}
       <div className='min-h-screen bg-bg-light font-lato'>
-        <div className='bg-bg-dark w-full lg:px-16'>
+        {/* <div className='fixed'> */}
+
+        <div className='w-full'>
+
+          <div className='top-0 w-full'>
+            <div className='bg-bg-dark w-full lg:px-16'>
+              <MainWrapper>
+
+                <Header />
+              </MainWrapper>
+            </div>
+            <div className='bg-bg-dark w-full mt-px'>
+              <MainWrapper>
+                <Currencies />
+
+              </MainWrapper>
+            </div>
+
+          </div>
+
+
+
+        </div>
+        <MainWrapper>
+          <Poisk />
+        </MainWrapper>
+
+
+        <div>
           <MainWrapper>
-
-
-            <Header />
+            {news.map((item, index) => <News item={item} key={index} />)}
 
           </MainWrapper>
         </div>
-        <div className='bg-bg-dark w-full'>
+        <div>
           <MainWrapper>
-            <Currencies />
-
-          </MainWrapper>
-        </div>
-        <div className=' w-full'>
-          <MainWrapper>
-
-
-            <Poisk />
-
+            <CategoriesAndProjects />
           </MainWrapper>
         </div>
       </div>
 
-      {/* <footer className={styles.footer}>
 
-      </footer> */}
     </div>
   )
 }

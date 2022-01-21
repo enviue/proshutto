@@ -3,7 +3,7 @@ export function MainWrapper({ children }) {
         <>
 
 
-            <div className='max-w-8xl w-full bg-bg-light mx-auto'>
+            <div className='max-w-8xl w-full mx-auto'>
                 {children}
             </div>
 

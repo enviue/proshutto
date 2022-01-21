@@ -1,90 +1,38 @@
 import { MainWrapper } from "./mainWrapper"
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
+import { useState, useEffect } from "react";
 
 
 const Currencies = () => {
 
-    const currencies = [
-        {
-            value: "BTC",
-            current: "56,658",
-            prev: "57,078",
-            diff: "-0.42",
-            stonks: true
+    const [currencies, setCurrencies] = useState([]);
 
-        },
-        {
-            value: "BTC",
-            current: "56,658",
-            prev: "57,078",
-            diff: "-0.42",
-            stonks: true
+    const api = `https://61e280ac3050a100176821c3.mockapi.io/currencies`
+
+    useEffect(() => {
 
 
-        },
-        {
-            value: "BTC",
-            current: "56,658",
-            prev: "57,078",
-            diff: "-0.42",
-            stonks: false
 
-        },
-        {
-            value: "BTC",
-            current: "56,658",
-            prev: "57,078",
-            diff: "+0.42",
-            stonks: true
+        (async function () {
+            let api_url = await fetch(api);
+            const res = await api_url.json();
+            setCurrencies(res)
 
-        },
-        {
-            value: "BTC",
-            current: "56,658",
-            prev: "57,078",
-            diff: "+0.42",
-            stonks: true
 
-        },
-        {
-            value: "BTC",
-            current: "56,658",
-            prev: "57,078",
-            diff: "-0.42",
-            stonks: false
+        })()
 
-        },
-        {
-            value: "BTC",
-            current: "56,658",
-            prev: "57,078",
-            diff: "+0.42",
-            stonks: true
 
-        },
-        {
-            value: "BTC",
-            current: "56,658",
-            prev: "57,078",
-            diff: "-0.42",
-            stonks: false
 
-        },
-        {
-            value: "BTC",
-            current: "56,658",
-            prev: "57,078",
-            diff: "+0.42",
-            stonks: true
+    }, [])
 
-        }
 
-    ]
+
+
 
     return (
 
-        <div className="bg-bg-dark mt-px w-full  py-4 px-4 xl:px-0">
+        <div className="w-full bg-bg-dark py-4 px-4 xl:px-0">
 
             <div className=" grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-9 gap-2 lg:gap-4 lg:w-max text-m">
                 {currencies.map((item, index) => (
@@ -97,6 +45,8 @@ const Currencies = () => {
                         </p>
                         <div className={`${item.stonks ? "text-green-500" : "text-red-500"} flex `}>
                             <p >${item.current}</p>
+                            <p className={`${item.stonks ? "visible" : "hidden"}`}>+</p>
+                            <p className={`${!item.stonks ? "visible" : "hidden"}`}>-</p>
                             <p >{item.diff}%</p>
                         </div>
                     </div>
